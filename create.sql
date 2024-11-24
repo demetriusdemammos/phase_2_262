@@ -17,7 +17,7 @@ CREATE TABLE Channel_Message (
     Time timestamp  NOT NULL,
     UserID int  NOT NULL,
     ChannelID int  NOT NULL,
-    CONSTRAINT Channel_Message_pk PRIMARY KEY (UserID,ChannelID)
+    CONSTRAINT Channel_Message_pk PRIMARY KEY (UserID,ChannelID, Time)
 );
 
 -- Table: User
