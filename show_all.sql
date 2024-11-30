@@ -5,3 +5,5 @@ SELECT * FROM "User";
 SELECT * FROM Channel;
 \echo "display Channel_Message table"
 SELECT * FROM Channel_Message;
+\echo "display Message table"
+SELECT * FROM Message;
