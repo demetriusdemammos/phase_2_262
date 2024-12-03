@@ -9,7 +9,23 @@ So That:  Communicate with my friend
 '''
 
 print(us)
-def 
+def send_message():
+    heading("send_message")
+    id = input('Message id is: ')
+    Sent_From = input('Posted by: ')
+    Sent_To = input("Posted to: ")
+    message = input('Message: ')
+    send_message(MessageID=id, Sent_From=Sent_From, Sent_To=Sent_To, message=message)
+
+def send_message(MessageID,Sent_From, Sent_to, message):
+    tmpl = '''
+        INSERT INTO Messages (MessageID,Sent_From,Sent_To,message)
+        VALUES (%s,%s,%s,%s);
+    '''
+    cmd = cur.mogrify(tmpl, (MessageID,Sent_From,Sent_To,message))
+    print_cmd(cmd)
+    cur.execute(cmd)
+    print()
 def show_user_message(MessageID):
     try:
         cols = 'm.MessageID m.Sent_From m.Sent_To m.message'
@@ -40,6 +56,6 @@ def show_user_message(MessageID):
 if __name__ == "__main__":
     try:
         MessageID = int(input("Enter the Message ID to view the message: "))
-        show_user_message_count_per_channel(user_id)
+        show_user_message(MessageID)
     except ValueError:
-        print("Invalid input. Please enter a numerical user ID.")
+        print("Invalid input. Please enter a numerical Message ID.")
