@@ -1,9 +1,11 @@
 MessageID,Sent_From,Sent_To,message
-1,john_doe,jane_smith,"Hey, are we still meeting for the project tomorrow?"
-2,jane_smith,john_doe,"Yes, let's meet at the coffee shop at 2 PM."
-3,mike_brown,alice_jones,"Can you send me the latest report?"
-4,alice_jones,mike_brown,"Sure, I'll upload it to our shared drive in a few minutes."
-5,bob_wilson,sarah_davis,"Did you get a chance to review the marketing proposal?"
-6,sarah_davis,bob_wilson,"I did, and I have some suggestions. Let's discuss during our next meeting."
-7,tom_miller,emma_white,"Congratulations on your promotion!"
-8,emma_white,tom_miller,"Thanks! It was a lot of hard work, but totally worth it."
+1,1,2,Hey Jane, how are you doing today?
+2,2,4,Alice, can we schedule a quick catch-up?
+3,3,5,Mike, could you help me with the project report?
+4,5,7,Tom, can you review these documents?
+5,4,6,Sarah, do you want to grab coffee later?
+6,6,8,Emma, I need your input on the upcoming presentation.
+7,7,1,John, can you confirm the meeting details?
+8,8,3,Bob, I've finished the client proposal draft.
+9,2,5,Mike, are we still on for the team lunch?
+10,5,8,Emma, could you send me the latest budget spreadsheet?
