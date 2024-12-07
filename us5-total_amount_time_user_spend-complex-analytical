@@ -1,0 +1,47 @@
+from common import conn, cur, print_cmd, show_table
+
+us = '''
+* User Story
+
+   As a:  Server Owner
+ I want:  analyze total amount of time user spend in server events
+So That:  I can identify active and inactive users, track event impact
+'''
+
+print(us)
+
+def show_total_amount_time_user_spend(user_id):
+    try:
+        cols = 'c.UserID c.Role t.Time_Duration t.Time_participated,t.EventID, t.UserID'
+
+        tmpl = f'''
+        SELECT c.UserID, SUM(t.Time_participated) AS MessageCount
+          FROM Common_User AS c
+               JOIN Event_Participation AS t ON t.UserID = c.UserID
+         WHERE cm.UserID = %s
+         GROUP BY c.UserID,t.EventID
+         ORDER BY SUM(t.Time_Participated);
+        '''
+
+        # Format the query with the user_id
+        cmd = cur.mogrify(tmpl, (user_id,))
+        print_cmd(cmd)
+
+        # Execute the query
+        cur.execute(cmd)
+
+        # Fetch results
+        rows = cur.fetchall()
+
+        # Display the results
+        show_table(rows, cols)
+    except Exception as e:
+        print(f"Error retrieving message count: {e}")
+
+# Test the function
+if __name__ == "__main__":
+    try:
+        user_id = int(input("Enter the user ID to view their total amount of time spent per event: "))
+        show_total_amount_time_user_spend(user_id)
+    except ValueError:
+        print("Invalid input. Please enter a numerical user ID.")
