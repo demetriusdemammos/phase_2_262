@@ -11,39 +11,23 @@ So That:  Identify active and inactive users and reward and punish corresponding
 
 print(us)
 
-def show_user_most_message_count_channel(user_id):
-    try:
-        cols = 'c.ChannelID c.ChannelName MessageCount'
+def send_channel_message():
+    heading("send_message")
+    Message = input('Message is: ')
+    Time = input('Time is: ')
+    UserID = input("User ID is: ")
+    ChannelID = input('Channel ID is: ')
+    send_message(Message=Message, Time=Time, UserID=UserID, ChannelID=ChannelID)
 
-        tmpl = f'''
-        SELECT c.ChannelID, c.Channelname, COUNT(cm.Message) AS MessageCount
-          FROM Channel AS c
-               LEFT JOIN Channel_Message AS cm ON c.ChannelID = cm.ChannelID
-         WHERE cm.UserID = %s
-         GROUP BY c.ChannelID, c.Channelname
-         HAVING MessageCount=(SELECT COUNT(cm2.Message)
-                                FROM Channel_Message AS cm2
-                               WHERE cm2.UserID=cm.UserID
-                               ORDER BY COUNT(cm2.Message)
-                               LIMIT 1
-                               )
-         ORDER BY c.ChannelID;
-        '''
-
-        # Format the query with the user_id
-        cmd = cur.mogrify(tmpl, (user_id,))
-        print_cmd(cmd)
-
-        # Execute the query
-        cur.execute(cmd)
-
-        # Fetch results
-        rows = cur.fetchall()
-
-        # Display the results
-        show_table(rows, cols)
-    except Exception as e:
-        print(f"Error retrieving message count: {e}")
+def send_channel_message(Message,Time,UserID,ChannelID):
+    tmpl = '''
+        INSERT INTO Messages (Message,Time,UserID,ChannelID)
+        VALUES (%s,%s,%s,%s);
+    '''
+    cmd = cur.mogrify(tmpl, (Message,Time,UserID,ChannelID))
+    print_cmd(cmd)
+    cur.execute(cmd)
+    print()
 
 # Test the function
 if __name__ == "__main__":
