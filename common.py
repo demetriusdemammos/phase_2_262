@@ -5,8 +5,12 @@ from prettytable import PrettyTable
 import re
 
 def c(s):
+<<<<<<< HEAD
     return re.sub(r'\s+', ', ', s)
 
+=======
+    return re.sub('\s+', ', ', s)
+>>>>>>> 34aa304 (lots of us)
 
 def show_table(rows, cols='', ncols=None):
     if ncols != None:

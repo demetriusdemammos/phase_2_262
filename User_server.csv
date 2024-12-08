@@ -1,0 +1,17 @@
+UserID,ServerID,Role
+2,1,Regular
+7,1,Moderator
+5,1,Regular
+8,1,Regular
+7,2,Regular
+2,2,Regular
+1,2,Regular
+8,3,Regular
+5,3,Moderator
+3,3,Admin
+4,4,Admin
+6,4,Admin
+7,4,Admin
+8,4,Regular
+1,5,Moderator
+6,5,Moderator
