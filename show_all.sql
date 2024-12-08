@@ -1,4 +1,3 @@
-
 \c trax
 \echo "display the User table"
 SELECT * FROM "User";
@@ -22,4 +21,5 @@ SELECT * FROM Admin;
 SELECT * FROM Server_Owner;
 \echo "display User_server table"
 SELECT * FROM User_server;
-
+\echo "display Channel_server table"
+SELECT * FROM Channel_server;
