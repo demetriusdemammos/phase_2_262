@@ -23,7 +23,7 @@ CREATE DATABASE trax;
 \copy User_Server(UserID,ServerID) FROM './User_Server.csv' csv header;
 \copy Admin(UserID,Responsibility) FROM './Admin.csv' csv header;
 \copy Server(ServerID,ServerName,DateCreated,OwnerID) FROM './Server.csv' csv header;
-\copy Channel_server(ServerID,ChannelID) FROM './Channel_server' csv header;
+\copy Channel_server(ChannelID,ServerID) FROM './Channel_server' csv header;
 =======
 -- Load data into tables
 \copy "User"(UserID, Username, email) FROM 'User.csv' CSV HEADER;
