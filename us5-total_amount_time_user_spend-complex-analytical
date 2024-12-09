@@ -4,23 +4,29 @@ us = '''
 * User Story
 
    As a:  Server Owner
- I want:  analyze total amount of time user spend in server events
+ I want:  Analyze total amount of time users spend in server events
 So That:  I can identify active and inactive users, track event impact
 '''
 
 print(us)
 
-def show_total_amount_time_user_spend(user_id):
-    try:
-        cols = 'c.UserID c.Role t.Time_Duration t.Time_participated,t.EventID, t.UserID'
 
-        tmpl = f'''
-        SELECT c.UserID, SUM(t.Time_participated) AS MessageCount
+def show_total_amount_time_user_spend(user_id):
+    """
+    Retrieves the total amount of time a user has participated in server events.
+    """
+    try:
+        # Define columns for the output
+        cols = 'UserID, Role, EventID, TotalTimeParticipated'
+
+        # SQL query to calculate the total time participated by the user
+        tmpl = '''
+        SELECT c.UserID, c.Role, t.EventID, SUM(t.Time_participated) AS TotalTimeParticipated
           FROM Common_User AS c
                JOIN Event_Participation AS t ON t.UserID = c.UserID
-         WHERE cm.UserID = %s
-         GROUP BY c.UserID,t.EventID
-         ORDER BY SUM(t.Time_Participated);
+         WHERE c.UserID = %s
+         GROUP BY c.UserID, c.Role, t.EventID
+         ORDER BY TotalTimeParticipated DESC;
         '''
 
         # Format the query with the user_id
@@ -33,15 +39,19 @@ def show_total_amount_time_user_spend(user_id):
         # Fetch results
         rows = cur.fetchall()
 
-        # Display the results
-        show_table(rows, cols)
+        if rows:
+            # Display the results in table format
+            show_table(rows, cols)
+        else:
+            print(f"No event participation data found for UserID {user_id}.")
     except Exception as e:
-        print(f"Error retrieving message count: {e}")
+        print(f"Error retrieving participation data: {e}")
 
-# Test the function
+
+
 if __name__ == "__main__":
     try:
-        user_id = int(input("Enter the user ID to view their total amount of time spent per event: "))
+        user_id = int(input("Enter the User ID to view their total amount of time spent per event: "))
         show_total_amount_time_user_spend(user_id)
     except ValueError:
-        print("Invalid input. Please enter a numerical user ID.")
+        print("Invalid input. Please enter a numerical User ID.")

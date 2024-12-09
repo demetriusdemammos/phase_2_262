@@ -1,4 +1,4 @@
-from common import conn, cur, print_cmd
+from common import conn, cur, print_cmd, show_table
 
 us = '''
 * User Story
@@ -36,9 +36,32 @@ def change_server_name(server_id, new_server_name):
 
         conn.commit()
         print(f"Server name for ServerID {server_id} successfully updated to '{new_server_name}'.")
+
+        # Display the updated server details
+        display_updated_server(server_id)
+
     except Exception as e:
         conn.rollback()
         print(f"Error updating server name: {e}")
+
+def display_updated_server(server_id):
+    try:
+        cols = 'ServerID, ServerName, DateCreated, OwnerID'
+
+        tmpl = '''
+        SELECT ServerID, ServerName, DateCreated, OwnerID
+          FROM Server
+         WHERE ServerID = %s;
+        '''
+        cmd = cur.mogrify(tmpl, (server_id,))
+        print_cmd(cmd)
+        cur.execute(cmd)
+        rows = cur.fetchall()
+
+        # Show the updated server details
+        show_table(rows, cols)
+    except Exception as e:
+        print(f"Error displaying updated server: {e}")
 
 if __name__ == "__main__":
     try:

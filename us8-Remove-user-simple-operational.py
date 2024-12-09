@@ -12,7 +12,7 @@ print(us)
 
 def remove_user_from_server(user_id, server_id):
     try:
-        # Delete messages from the specified server
+
         tmpl1 = '''
         DELETE FROM Channel_Message
          WHERE UserID = %s
@@ -26,7 +26,7 @@ def remove_user_from_server(user_id, server_id):
         print_cmd(cmd1)
         cur.execute(cmd1)
 
-        # Remove the user from the User_Server table
+
         tmpl2 = '''
         DELETE FROM User_Server
          WHERE UserID = %s
@@ -36,11 +36,11 @@ def remove_user_from_server(user_id, server_id):
         print_cmd(cmd2)
         cur.execute(cmd2)
 
-        # Commit the transaction
+
         conn.commit()
         print(f"User {user_id} successfully removed from server {server_id}, and their messages deleted.")
     except Exception as e:
-        # Rollback in case of error
+     
         conn.rollback()
         print(f"Error removing user: {e}")
 

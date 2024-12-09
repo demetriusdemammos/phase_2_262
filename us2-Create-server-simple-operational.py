@@ -10,11 +10,10 @@ So That: I can share interests with more people
 
 print(us)
 
-def establish_server(server_id, server_name, owner_id):
+def establish_server(server_name, owner_id):
     from datetime import datetime
 
     try:
-        # Check if the owner exists in the User table
         tmpl_check_user = '''
         SELECT COUNT(*) FROM "User"
          WHERE UserID = %s;
@@ -26,7 +25,6 @@ def establish_server(server_id, server_name, owner_id):
             print(f"Error: UserID {owner_id} does not exist in the system. Cannot create server.")
             return
 
-        # Insert into Server_Owner if not already present
         tmpl_insert_owner = '''
         INSERT INTO Server_Owner (UserID)
         SELECT %s
@@ -36,7 +34,12 @@ def establish_server(server_id, server_name, owner_id):
         print_cmd(cmd_insert_owner)
         cur.execute(cmd_insert_owner)
 
-        # Insert into Server table
+        tmpl_get_max_id = '''
+        SELECT COALESCE(MAX(ServerID), 0) + 1 FROM Server;
+        '''
+        cur.execute(tmpl_get_max_id)
+        server_id = cur.fetchone()[0]
+
         current_date = datetime.now().strftime('%Y-%m-%d')
         tmpl_insert_server = '''
         INSERT INTO Server (ServerID, ServerName, DateCreated, OwnerID)
@@ -48,15 +51,27 @@ def establish_server(server_id, server_name, owner_id):
 
         conn.commit()
         print(f"Server '{server_name}' successfully created with ID {server_id}, owned by User {owner_id}.")
+
+
+        tmpl_show_servers = '''
+        SELECT * FROM Server;
+        '''
+        cur.execute(tmpl_show_servers)
+        rows = cur.fetchall()
+
+        print("\nCurrent Server Table:")
+        print("ServerID | ServerName | DateCreated | OwnerID")
+        for row in rows:
+            print(f"{row[0]} | {row[1]} | {row[2]} | {row[3]}")
+
     except Exception as e:
         conn.rollback()
         print(f"Error creating server: {e}")
 
 if __name__ == "__main__":
     try:
-        server_id = int(input("Enter the Server ID: "))
         server_name = input("Enter the Server Name: ")
         owner_id = int(input("Enter the Owner ID: "))
-        establish_server(server_id, server_name, owner_id)
+        establish_server(server_name, owner_id)
     except ValueError:
-        print("Invalid input. Please enter valid numerical values for Server ID and Owner ID.")
+        print("Invalid input. Please enter a valid numerical value for Owner ID.")

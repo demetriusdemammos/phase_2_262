@@ -23,22 +23,21 @@ def show_user_message_count_per_channel(user_id):
          ORDER BY c.ChannelID;
         '''
 
-        # Format the query with the user_id
         cmd = cur.mogrify(tmpl, (user_id,))
         print_cmd(cmd)
 
-        # Execute the query
+
         cur.execute(cmd)
 
-        # Fetch results
+
         rows = cur.fetchall()
 
-        # Display the results
+       
         show_table(rows, cols)
     except Exception as e:
         print(f"Error retrieving message count: {e}")
 
-# Test the function
+
 if __name__ == "__main__":
     try:
         user_id = int(input("Enter the user ID to view their message count per channel: "))
